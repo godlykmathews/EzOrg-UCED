@@ -1,34 +1,58 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom'
+import { useState, useEffect } from 'react'
+import Layout from './components/Layout'
+import Login from './pages/Login'
+import Dashboard from './pages/Dashboard'
+import Events from './pages/Events'
+import EventDetail from './pages/EventDetail'
+import CreateEvent from './pages/CreateEvent'
+import Approvals from './pages/Approvals'
+import Announcements from './pages/Announcements'
+import NoticeBoard from './pages/NoticeBoard'
+import Profile from './pages/Profile'
 import './App.css'
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [user, setUser] = useState(null)
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    // Mock authentication check
+    const mockUser = localStorage.getItem('mockUser')
+    if (mockUser) {
+      setUser(JSON.parse(mockUser))
+    }
+    setLoading(false)
+  }, [])
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-blue-600"></div>
+      </div>
+    )
+  }
+
+  if (!user) {
+    return <Login onLogin={setUser} />
+  }
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+    <Router>
+      <Layout user={user} onLogout={() => setUser(null)}>
+        <Routes>
+          <Route path="/" element={<Navigate to="/dashboard" replace />} />
+          <Route path="/dashboard" element={<Dashboard user={user} />} />
+          <Route path="/events" element={<Events user={user} />} />
+          <Route path="/events/:id" element={<EventDetail user={user} />} />
+          <Route path="/events/create" element={<CreateEvent user={user} />} />
+          <Route path="/approvals" element={<Approvals user={user} />} />
+          <Route path="/announcements" element={<Announcements user={user} />} />
+          <Route path="/notice-board" element={<NoticeBoard user={user} />} />
+          <Route path="/profile" element={<Profile user={user} />} />
+        </Routes>
+      </Layout>
+    </Router>
   )
 }
 
