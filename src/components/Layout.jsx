@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
+import { useAuth } from '../contexts/AuthContext'
 import {
   HomeIcon,
   CalendarIcon,
@@ -12,9 +13,13 @@ import {
   PlusCircleIcon
 } from '@heroicons/react/24/outline'
 
-const Layout = ({ children, user, onLogout }) => {
+const Layout = ({ children, user }) => {
+  const { signOut } = useAuth()
   const [sidebarOpen, setSidebarOpen] = useState(false)
   const location = useLocation()
+
+  const userRole = user?.profile?.role || 'student'
+  const userName = user?.profile?.name || user?.email || 'User'
 
   const navigation = [
     { name: 'Dashboard', href: '/dashboard', icon: HomeIcon, roles: ['student', 'lead', 'advisor', 'hod', 'principal'] },
@@ -27,7 +32,7 @@ const Layout = ({ children, user, onLogout }) => {
   ]
 
   const filteredNavigation = navigation.filter(item => 
-    item.roles.includes(user.role)
+    item.roles.includes(userRole)
   )
 
   const getRoleColor = (role) => {
@@ -39,6 +44,14 @@ const Layout = ({ children, user, onLogout }) => {
       principal: 'bg-red-100 text-red-800'
     }
     return colors[role] || 'bg-gray-100 text-gray-800'
+  }
+
+  const handleLogout = async () => {
+    try {
+      await signOut()
+    } catch (error) {
+      console.error('Error signing out:', error)
+    }
   }
 
   return (
@@ -117,12 +130,12 @@ const Layout = ({ children, user, onLogout }) => {
             </button>
             
             <div className="flex items-center space-x-4">
-              <span className={`px-2 py-1 text-xs font-medium rounded-full ${getRoleColor(user.role)}`}>
-                {user.role.charAt(0).toUpperCase() + user.role.slice(1)}
+              <span className={`px-2 py-1 text-xs font-medium rounded-full ${getRoleColor(userRole)}`}>
+                {userRole.charAt(0).toUpperCase() + userRole.slice(1)}
               </span>
-              <span className="text-sm font-medium text-gray-700">{user.name}</span>
+              <span className="text-sm font-medium text-gray-700">{userName}</span>
               <button
-                onClick={onLogout}
+                onClick={handleLogout}
                 className="text-sm text-gray-500 hover:text-gray-700"
               >
                 Logout
