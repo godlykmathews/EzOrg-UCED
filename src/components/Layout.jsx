@@ -61,7 +61,7 @@ const Layout = ({ children, user }) => {
         <div className="fixed inset-0 bg-gray-600 bg-opacity-75" onClick={() => setSidebarOpen(false)} />
         <div className="fixed inset-y-0 left-0 w-64 bg-white shadow-xl">
           <div className="flex items-center justify-between h-16 px-4 border-b border-gray-200">
-            <h2 className="text-lg font-semibold text-gray-900">UCED</h2>
+            <h2 className="text-lg font-semibold text-gray-900">EzOrg</h2>
             <button onClick={() => setSidebarOpen(false)}>
               <XMarkIcon className="h-6 w-6 text-gray-400" />
             </button>
