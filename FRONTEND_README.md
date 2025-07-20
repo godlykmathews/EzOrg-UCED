@@ -107,7 +107,7 @@ A comprehensive React-based frontend for the Unified College Event Dashboard (UC
    ```
 
 4. **Open in browser**
-   Navigate to `http://localhost:5174` (or the port shown in terminal)
+   Navigate to `http://localhost:` (or the port shown in terminal)
 
 ### Demo Login
 

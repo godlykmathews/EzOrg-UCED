@@ -208,8 +208,8 @@ const NoticeBoard = ({ user }) => {
     <div className="p-6">
       {/* Header */}
       <div className="mb-6">
-        <h1 className="text-3xl font-bold text-gray-900">Notice Board</h1>
-        <p className="mt-1 text-gray-600">
+        <h1 className="text-3xl font-bold text-slate-900">Notice Board</h1>
+        <p className="mt-1 text-slate-600">
           {user.role === 'student' || user.role === 'lead' 
             ? 'Stay updated with college notices and announcements'
             : 'College notices and announcements dashboard'
@@ -218,34 +218,34 @@ const NoticeBoard = ({ user }) => {
       </div>
 
       {/* Filters */}
-      <div className="bg-white p-4 rounded-lg shadow mb-6">
+      <div className="bg-white p-4 rounded-lg shadow-sm border border-slate-200 mb-6">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
-            <label htmlFor="search" className="block text-sm font-medium text-gray-700 mb-1">
+            <label htmlFor="search" className="block text-sm font-medium text-slate-700 mb-1">
               Search Notices
             </label>
             <div className="relative">
-              <MagnifyingGlassIcon className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
+              <MagnifyingGlassIcon className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-slate-400" />
               <input
                 type="text"
                 id="search"
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
                 placeholder="Search by title, content, or author..."
-                className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                className="block w-full pl-10 pr-3 py-2 border border-slate-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
               />
             </div>
           </div>
           
           <div>
-            <label htmlFor="category" className="block text-sm font-medium text-gray-700 mb-1">
+            <label htmlFor="category" className="block text-sm font-medium text-slate-700 mb-1">
               Filter by Category
             </label>
             <select
               id="category"
               value={categoryFilter}
               onChange={(e) => setCategoryFilter(e.target.value)}
-              className="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+              className="block w-full px-3 py-2 border border-slate-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
             >
               {categories.map(category => (
                 <option key={category.value} value={category.value}>
@@ -261,9 +261,9 @@ const NoticeBoard = ({ user }) => {
       <div className="space-y-4">
         {filteredNotices.length === 0 ? (
           <div className="text-center py-12">
-            <ClipboardDocumentListIcon className="mx-auto h-12 w-12 text-gray-400" />
-            <h3 className="mt-2 text-sm font-medium text-gray-900">No notices found</h3>
-            <p className="mt-1 text-sm text-gray-500">
+            <ClipboardDocumentListIcon className="mx-auto h-12 w-12 text-slate-400" />
+            <h3 className="mt-2 text-sm font-medium text-slate-900">No notices found</h3>
+            <p className="mt-1 text-sm text-slate-500">
               {searchTerm || categoryFilter !== 'all' 
                 ? 'Try adjusting your search or filter criteria.'
                 : 'There are no notices to display at the moment.'
@@ -274,16 +274,16 @@ const NoticeBoard = ({ user }) => {
           filteredNotices.map((notice) => (
             <div 
               key={notice.id} 
-              className={`bg-white rounded-lg shadow p-6 ${
+              className={`bg-white rounded-lg shadow-sm border border-slate-200 p-6 ${
                 isExpiringSoon(notice.expiresAt) ? 'border-l-4 border-yellow-400' : ''
               } ${
-                notice.priority === 'high' ? 'border-l-4 border-red-400' : ''
+                notice.priority === 'high' ? 'border-l-4 border-red-500' : ''
               }`}
             >
               <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between">
                 <div className="flex-1">
                   <div className="flex flex-wrap items-center gap-2 mb-3">
-                    <h3 className="text-lg font-semibold text-gray-900">{notice.title}</h3>
+                    <h3 className="text-lg font-semibold text-slate-900">{notice.title}</h3>
                     {getPriorityBadge(notice.priority)}
                     {getCategoryBadge(notice.category)}
                     {isExpiringSoon(notice.expiresAt) && (
@@ -293,9 +293,9 @@ const NoticeBoard = ({ user }) => {
                     )}
                   </div>
                   
-                  <p className="text-gray-600 mb-4 leading-relaxed">{notice.content}</p>
+                  <p className="text-slate-600 mb-4 leading-relaxed">{notice.content}</p>
                   
-                  <div className="flex flex-wrap items-center text-sm text-gray-500 gap-4">
+                  <div className="flex flex-wrap items-center text-sm text-slate-500 gap-4">
                     <div className="flex items-center">
                       <UserIcon className="h-4 w-4 mr-1" />
                       {notice.postedBy}
@@ -320,11 +320,11 @@ const NoticeBoard = ({ user }) => {
 
       {/* Statistics */}
       {filteredNotices.length > 0 && (
-        <div className="mt-8 bg-gray-50 rounded-lg p-4">
+        <div className="mt-8 bg-slate-100 rounded-lg p-4 border border-slate-200">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-center">
             <div>
-              <p className="text-2xl font-semibold text-gray-900">{filteredNotices.length}</p>
-              <p className="text-sm text-gray-500">
+              <p className="text-2xl font-semibold text-slate-900">{filteredNotices.length}</p>
+              <p className="text-sm text-slate-500">
                 {searchTerm || categoryFilter !== 'all' ? 'Filtered' : 'Total'} Notices
               </p>
             </div>
@@ -332,13 +332,13 @@ const NoticeBoard = ({ user }) => {
               <p className="text-2xl font-semibold text-red-600">
                 {filteredNotices.filter(n => n.priority === 'high').length}
               </p>
-              <p className="text-sm text-gray-500">High Priority</p>
+              <p className="text-sm text-slate-500">High Priority</p>
             </div>
             <div>
               <p className="text-2xl font-semibold text-yellow-600">
                 {filteredNotices.filter(n => isExpiringSoon(n.expiresAt)).length}
               </p>
-              <p className="text-sm text-gray-500">Expiring Soon</p>
+              <p className="text-sm text-slate-500">Expiring Soon</p>
             </div>
           </div>
         </div>
