@@ -1,5 +1,5 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom'
-import { useState, useEffect } from 'react'
+import { AuthProvider, useAuth } from './contexts/AuthContext'
 import Layout from './components/Layout'
 import Login from './pages/Login'
 import Dashboard from './pages/Dashboard'
@@ -12,34 +12,29 @@ import NoticeBoard from './pages/NoticeBoard'
 import Profile from './pages/Profile'
 import './App.css'
 
-function App() {
-  const [user, setUser] = useState(null)
-  const [loading, setLoading] = useState(true)
+function AppContent() {
+  const { user, loading } = useAuth()
 
-  useEffect(() => {
-    // Mock authentication check
-    const mockUser = localStorage.getItem('mockUser')
-    if (mockUser) {
-      setUser(JSON.parse(mockUser))
-    }
-    setLoading(false)
-  }, [])
+  console.log('App: Current state:', { user, loading });
 
   if (loading) {
+    console.log('App: Showing loading spinner');
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-blue-600"></div>
       </div>
-    )
+    );
   }
 
   if (!user) {
-    return <Login onLogin={setUser} />
+    console.log('App: No user, showing Login');
+    return <Login />;
   }
 
+  console.log('App: User authenticated, showing main app');
   return (
     <Router>
-      <Layout user={user} onLogout={() => setUser(null)}>
+      <Layout user={user}>
         <Routes>
           <Route path="/" element={<Navigate to="/dashboard" replace />} />
           <Route path="/dashboard" element={<Dashboard user={user} />} />
@@ -53,6 +48,14 @@ function App() {
         </Routes>
       </Layout>
     </Router>
+  );
+}
+
+function App() {
+  return (
+    <AuthProvider>
+      <AppContent />
+    </AuthProvider>
   )
 }
 

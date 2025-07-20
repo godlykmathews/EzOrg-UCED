@@ -48,9 +48,9 @@ A role-based event management platform for college communities with real-time mu
 #### `users`
 | Column       | Type     | Notes                  |
 |--------------|----------|------------------------|
+| id           | UUID     | Supabase auth UID      |
 | name         | Text     |                        |
 | email        | Text     |                        |
-| password     | Text     |                        |
 | role         | Text     | student / lead / advisor / hod / principal |
 
 #### `events`
