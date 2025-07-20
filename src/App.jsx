@@ -15,18 +15,23 @@ import './App.css'
 function AppContent() {
   const { user, loading } = useAuth()
 
+  console.log('App: Current state:', { user, loading });
+
   if (loading) {
+    console.log('App: Showing loading spinner');
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-blue-600"></div>
       </div>
-    )
+    );
   }
 
   if (!user) {
-    return <Login />
+    console.log('App: No user, showing Login');
+    return <Login />;
   }
 
+  console.log('App: User authenticated, showing main app');
   return (
     <Router>
       <Layout user={user}>
@@ -43,7 +48,7 @@ function AppContent() {
         </Routes>
       </Layout>
     </Router>
-  )
+  );
 }
 
 function App() {
